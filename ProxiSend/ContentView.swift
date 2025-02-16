@@ -12,7 +12,7 @@ struct ContentView: View {
     @State private var showInfoAlert = false
     @State private var showPopup = false
     @State private var nearbyDevices: [String] = [
-        "Jackson's iPhone",
+//        "Jackson's iPhone",
     ]
     
     var body: some View {
@@ -26,7 +26,7 @@ struct ContentView: View {
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(8)
                     if textInput.isEmpty {
-                        Text("Enter text")
+                        Text(NSLocalizedString("textbox_hint", comment: "Placeholder to show where to enter text"))
                             .foregroundColor(.gray)
                             .padding(.horizontal, 12)
                             .padding(.top, 16)
@@ -34,7 +34,7 @@ struct ContentView: View {
                     }
                 }
                 HStack {
-                    Text("Send to device")
+                    Text(NSLocalizedString("send_title", comment: "Title for sending the text to a device"))
                         .font(.title3)
                     Spacer()
                     ProgressView()
@@ -42,7 +42,7 @@ struct ContentView: View {
                 .padding(.top)
                 .padding(.bottom, 4)
                 if nearbyDevices.isEmpty {
-                    Text("Open ProxiSend on another device nearby to see it appear here ready for sharing.")
+                    Text(NSLocalizedString("devices_empty", comment: "Message when no devices are found nearby"))
                         .foregroundColor(.secondary)
                         .padding(.bottom, 8)
                 } else {
@@ -53,7 +53,7 @@ struct ContentView: View {
                                     name: device,
                                     isSending: false,
                                     onTap: {
-                                        print("Tapped")
+                                        
                                     }
                                 )
                             }
@@ -64,22 +64,23 @@ struct ContentView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("ProxiSend")
+            .navigationTitle(NSLocalizedString("app_name", comment: "The name of the app used for titles"))
             .scrollDismissesKeyboard(.interactively)
             .toolbar {
                 ToolbarItem {
                     Button(action: {
-                        showPopup = true
+                        showInfoAlert = true
                     }) {
                         Image(systemName: "info.circle")
+                            .accessibilityLabel(NSLocalizedString("about", comment: "About button"))
                     }
                 }
             }
             .alert(isPresented: $showInfoAlert) {
                 Alert(
-                    title: Text("About ProxiSend"),
-                    message: Text("ProxiSend lets you send text and data between nearby devices, just open the app on another device to see it show up here."),
-                    dismissButton: .default(Text("OK"))
+                    title: Text(NSLocalizedString("about_title", comment: "Title for about popup")),
+                    message: Text(NSLocalizedString("about_message", comment: "Message about how to use the app")),
+                    dismissButton: .default(Text(NSLocalizedString("ok", comment: "Accept button")))
                 )
             }
             .sheet(isPresented: $showPopup) {
@@ -146,18 +147,18 @@ struct MessageView: View {
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
                 Button(action: {
-                    UIPasteboard.general.string = "Message"
+                    UIPasteboard.general.string = "Here is your message"
                 }) {
                     HStack {
                         Image(systemName: "document.on.document")
-                        Text("Copy")
+                        Text(NSLocalizedString("copy", comment: "Copy text to clipboard"))
                     }
                 }
                 .padding(.vertical)
                 Spacer()
             }
             .padding()
-            .navigationBarTitle("Message recieved", displayMode: .inline)
+            .navigationBarTitle(NSLocalizedString("message_received", comment: "Title for new message"), displayMode: .inline)
             .toolbar {
                 ToolbarItem {
                     Button(action: {
@@ -165,6 +166,7 @@ struct MessageView: View {
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundColor(.secondary)
+                            .accessibilityLabel(NSLocalizedString("close", comment: "Close button"))
                     }
                 }
             }

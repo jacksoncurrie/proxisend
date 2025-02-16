@@ -1,0 +1,138 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "about" : {
+      "comment" : "About button",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
+          }
+        }
+      }
+    },
+    "about_message" : {
+      "comment" : "Message about how to use the app",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProxiSend lets you send text and data between nearby devices, just open the app on another device to see it show up here."
+          }
+        }
+      }
+    },
+    "about_title" : {
+      "comment" : "Title for about popup",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About ProxiSend"
+          }
+        }
+      }
+    },
+    "app_name" : {
+      "comment" : "The name of the app used for titles",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProxiSend"
+          }
+        }
+      }
+    },
+    "close" : {
+      "comment" : "Close button",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "copy" : {
+      "comment" : "Copy text to clipboard",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        }
+      }
+    },
+    "devices_empty" : {
+      "comment" : "Message when no devices are found nearby",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open ProxiSend on another device nearby to see it appear here ready for sharing."
+          }
+        }
+      }
+    },
+    "message_received" : {
+      "comment" : "Title for new message",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message received"
+          }
+        }
+      }
+    },
+    "ok" : {
+      "comment" : "Accept button",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ok"
+          }
+        }
+      }
+    },
+    "send_title" : {
+      "comment" : "Title for sending the text to a device",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send to device"
+          }
+        }
+      }
+    },
+    "textbox_hint" : {
+      "comment" : "Placeholder to show where to enter text",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter text"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

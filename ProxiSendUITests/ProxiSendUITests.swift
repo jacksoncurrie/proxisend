@@ -10,25 +10,48 @@ import XCTest
 final class ProxiSendUITests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
+    override func tearDownWithError() throws {}
+    
     @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testTextEditorInput() throws {
         let app = XCUIApplication()
         app.launch()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let textEditor = app.textViews.element(boundBy: 0)
+        XCTAssertTrue(textEditor.exists, "Text editor should be present")
+        
+        let placeholderText = app.staticTexts["Enter text"]
+        XCTAssertTrue(placeholderText.exists, "Placeholder should be visible before typing")
+
+        textEditor.tap()
+        textEditor.typeText("Hello ProxiSend!")
+
+        XCTAssertFalse(placeholderText.exists, "Placeholder should disappear after typing")
+        XCTAssertEqual(textEditor.value as? String, "Hello ProxiSend!", "Text should match user input")
+    }
+    
+    @MainActor
+    func testInfoPopupDismissal() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        let infoButton = app.buttons["info.circle"]
+        XCTAssertTrue(infoButton.exists, "Info button should exist")
+
+        infoButton.tap()
+
+        let aboutPopup = app.alerts["About ProxiSend"]
+        XCTAssertTrue(aboutPopup.exists, "Info popup should appear after tapping (i)")
+
+        let okButton = aboutPopup.buttons["OK"]
+        XCTAssertTrue(okButton.exists, "OK button should be visible")
+
+        okButton.tap()
+
+        XCTAssertFalse(aboutPopup.exists, "Info popup should close after tapping OK")
     }
 
     @MainActor
