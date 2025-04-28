@@ -1,42 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "about" : {
-      "comment" : "About button",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About"
-          }
-        }
-      }
-    },
-    "about_message" : {
-      "comment" : "Message about how to use the app",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ProxiSend lets you send text and data between nearby devices, just open the app on another device to see it show up here."
-          }
-        }
-      }
-    },
-    "about_title" : {
-      "comment" : "Title for about popup",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About ProxiSend"
-          }
-        }
-      }
-    },
     "app_name" : {
       "comment" : "The name of the app used for titles",
       "extractionState" : "manual",
@@ -45,6 +9,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ProxiSend"
+          }
+        }
+      }
+    },
+    "bluetooth_disabled" : {
+      "comment" : "Message when Bluetooth is not enabled",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bluetooth must be enabled and permissions accepted to send text."
           }
         }
       }

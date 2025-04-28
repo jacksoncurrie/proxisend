@@ -6,87 +6,75 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
-    @State private var textInput: String = ""
     @State private var showInfoAlert = false
-    @State private var showPopup = false
-    @State private var nearbyDevices: [String] = [
-//        "Jackson's iPhone",
-    ]
+
+    @StateObject private var viewModel = ContentViewModel()
     
     var body: some View {
-        NavigationView {
-            VStack(alignment: .leading) {
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: $textInput)
-                        .frame(height: 180)
-                        .padding(8)
-                        .scrollContentBackground(.hidden)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(8)
-                    if textInput.isEmpty {
-                        Text(NSLocalizedString("textbox_hint", comment: "Placeholder to show where to enter text"))
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 12)
-                            .padding(.top, 16)
-                            .allowsHitTesting(false)
-                    }
-                }
-                HStack {
-                    Text(NSLocalizedString("send_title", comment: "Title for sending the text to a device"))
-                        .font(.title3)
-                    Spacer()
-                    ProgressView()
-                }
+        VStack(alignment: .leading) {
+            Text(NSLocalizedString("app_name", comment: "The name of the app"))
+                .font(.largeTitle)
+                .bold()
                 .padding(.top)
-                .padding(.bottom, 4)
-                if nearbyDevices.isEmpty {
-                    Text(NSLocalizedString("devices_empty", comment: "Message when no devices are found nearby"))
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 8)
-                } else {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(nearbyDevices, id: \.self) { device in
-                                DeviceView(
-                                    name: device,
-                                    isSending: false,
-                                    onTap: {
-                                        
-                                    }
-                                )
-                            }
+            ZStack(alignment: .topLeading) {
+                TextEditor(text: $viewModel.textInput)
+                    .frame(height: 180)
+                    .padding(8)
+                    .scrollContentBackground(.hidden)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(8)
+                if viewModel.textInput.isEmpty {
+                    Text(NSLocalizedString("textbox_hint", comment: "Placeholder to show where to enter text"))
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 12)
+                        .padding(.top, 16)
+                        .allowsHitTesting(false)
+                }
+            }
+            HStack {
+                Text(NSLocalizedString("send_title", comment: "Title for sending the text to a device"))
+                    .font(.title3)
+                Spacer()
+                ProgressView()
+            }
+            .padding(.top)
+            .padding(.bottom, 4)
+            if !viewModel.isEnabled {
+                Text(NSLocalizedString("bluetooth_disabled", comment: "Message when Bluetooth is not enabled"))
+                    .foregroundColor(.secondary)
+                    .padding(.bottom, 8)
+            } else if viewModel.devices.isEmpty {
+                Text(NSLocalizedString("devices_empty", comment: "Message when no devices are found nearby"))
+                    .foregroundColor(.secondary)
+                    .padding(.bottom, 8)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 16) {
+                        ForEach(viewModel.devices, id: \.identifier) { device in
+                            DeviceView(
+                                name: device.name ?? "Unknown",
+                                isSending: device.identifier == viewModel.loadingDevice,
+                                onTap: {
+                                    guard viewModel.loadingDevice == nil else { return }
+                                    viewModel.tapDevice(device)
+                                }
+                            )
                         }
                     }
-                    .padding(.bottom, 8)
                 }
-                Spacer()
+                .padding(.bottom, 8)
             }
-            .padding()
-            .navigationTitle(NSLocalizedString("app_name", comment: "The name of the app used for titles"))
-            .scrollDismissesKeyboard(.interactively)
-            .toolbar {
-                ToolbarItem {
-                    Button(action: {
-                        showInfoAlert = true
-                    }) {
-                        Image(systemName: "info.circle")
-                            .accessibilityLabel(NSLocalizedString("about", comment: "About button"))
-                    }
-                }
-            }
-            .alert(isPresented: $showInfoAlert) {
-                Alert(
-                    title: Text(NSLocalizedString("about_title", comment: "Title for about popup")),
-                    message: Text(NSLocalizedString("about_message", comment: "Message about how to use the app")),
-                    dismissButton: .default(Text(NSLocalizedString("ok", comment: "Accept button")))
-                )
-            }
-            .sheet(isPresented: $showPopup) {
-                MessageView()
-                    .presentationDetents([.height(340)])
-            }
+            Spacer()
+        }
+        .frame(maxWidth: 600)
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .sheet(isPresented: $viewModel.showPopup) {
+            MessageView(text: viewModel.popupText)
+                .presentationDetents([.height(340)])
         }
     }
 }
@@ -134,20 +122,36 @@ struct DeviceView: View {
     }
 }
 
+struct SelectableTextView: UIViewRepresentable {
+    let text: String
+    func makeUIView(context: Context) -> UITextView {
+        let textView = UITextView()
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isScrollEnabled = true
+        textView.backgroundColor = UIColor.clear
+        textView.textContainerInset = UIEdgeInsets(top: 16, left: 8, bottom: 16, right: 8)
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        return textView
+    }
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        uiView.text = text
+    }
+}
+
 struct MessageView: View {
     @Environment(\.dismiss) var dismiss
+    let text: String
     
     var body: some View {
         NavigationView {
             VStack {
-                TextEditor(text: .constant("Here is your message"))
+                SelectableTextView(text: text)
                     .frame(height: 180)
-                    .padding(8)
-                    .scrollContentBackground(.hidden)
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
                 Button(action: {
-                    UIPasteboard.general.string = "Here is your message"
+                    UIPasteboard.general.string = text
                 }) {
                     HStack {
                         Image(systemName: "document.on.document")
