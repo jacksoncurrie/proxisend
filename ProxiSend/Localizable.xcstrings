@@ -61,6 +61,24 @@
         }
       }
     },
+    "Here is a message that was sent. testing that is was quite long that it went off the side of the screen." : {
+
+    },
+    "history_title" : {
+      "comment" : "History of messages received",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages received"
+          }
+        }
+      }
+    },
+    "Jackson's iPhone" : {
+
+    },
     "message_received" : {
       "comment" : "Title for new message",
       "extractionState" : "manual",
@@ -69,6 +87,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Message received"
+          }
+        }
+      }
+    },
+    "no_history" : {
+      "comment" : "Message when no history",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No messages received. Send one from another device to see it show up here."
           }
         }
       }

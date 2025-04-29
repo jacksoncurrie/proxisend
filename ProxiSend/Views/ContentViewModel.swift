@@ -15,6 +15,7 @@ class ContentViewModel: NSObject, ObservableObject, CBCentralManagerDelegate, CB
     @Published var loadingDevice: UUID? = nil
     @Published var showPopup: Bool = false
     @Published var popupText: String = ""
+    @Published var historyItems = ["Test1", "Test2", "Test3"]
     
     private var centralManager: CBCentralManager!
     
